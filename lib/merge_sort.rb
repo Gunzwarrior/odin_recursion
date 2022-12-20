@@ -1,25 +1,33 @@
-array = [1, 5, 6, 7, 8, 9, 2, 3]
+array = [1, 3, 9, 2, 4, 5, 8, 6, 7]
 
 def merge_sort(array)
-  #take an array
-  #divide it into halves
-  #divide those halves into halves until having only
-  #1 element in it
   left_half_array = array[0..(array.length/2-1)]
   right_half_array = array[(array.length/2)..]
-  p left_half_array
-  p right_half_array
-  merge_sort(left_half_array) if left_half_array.length > 1
-  merge_sort(right_half_array) if right_half_array.length > 1
+  left_half_array = merge_sort(left_half_array) if left_half_array.length > 1
+  right_half_array = merge_sort(right_half_array) if right_half_array.length > 1
   
+  sorted_array = []
+  i_left = 0
+  i_right = 0
+  i_sorted = 0
+  until i_left == left_half_array.length || i_right == right_half_array.length
+    if left_half_array[i_left] < right_half_array[i_right]
+      sorted_array[i_sorted] = left_half_array[i_left]
+      i_left += 1
+      i_sorted += 1
+    else
+      sorted_array[i_sorted] = right_half_array[i_right]
+      i_right += 1
+      i_sorted += 1
+    end
+  end
 
-
-  #when that's the case, merge the 2 arrays by sorting
-  #the first numbers of the array and doing it until
-  #one array is empty, then add the rest of the remaining
-  #array to the array, and do that for every steps
-  #then return the big sorted array
-  array
+  if i_left == left_half_array.length
+    sorted_array[i_sorted..((left_half_array.length) - 1 + (right_half_array.length) - 1)] = right_half_array[i_right..(right_half_array.length) - 1]
+  else
+    sorted_array[i_sorted..((left_half_array.length) - 1 + (right_half_array.length) - 1)] = left_half_array[i_left..(left_half_array.length) - 1]
+  end
+  sorted_array
 end
 
 p merge_sort(array)
